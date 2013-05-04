@@ -1,0 +1,19 @@
+<a class="post-avatar-container" href="{{url "users#show" user.login}}">
+  <img class="post-avatar avatar" src="{{#gravatar}}{{user.gravatar_id}}{{/gravatar}}" alt="" />
+</a>
+<div class="post-content">
+  <div class="post-header">
+    <a class="post-author" href="{{url "users#show" user.login}}">{{user.login}}</a>
+    {{#if isFeedPost}}in {{showPostUrl}}{{/if}}
+    <time class="post-metadata post-date">{{#date}}{{created_at}}{{/date}}</time>
+  </div>
+  {{#ifCanEditPost}}
+    <div class="post-icons">
+      <span class="icon-pencil-1 post-edit-button" title="Edit"></span>
+      <span class="icon-trash post-delete-button" title="Delete"></span>
+    </div>
+  {{/ifCanEditPost}}
+  <div class="post-text">
+    {{#markdown}}{{{text}}}{{/markdown}}
+  </div>
+</div>

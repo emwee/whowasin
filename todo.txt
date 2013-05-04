@@ -1,0 +1,21 @@
+= API calls =
+
+/search/?movies[]=movie1&movies[]=movie2
+
+
+= Redis =
+
+== Hashes ==
+
+searches movie:{movie_title}        imbdi api response (json)
+
+== Sets ==
+
+actors:{movie_param}                [actor1, actor2, actor3..]
+
+    > sinter actors:{movie_param1} actors:{movie_param2}
+    1) "Brad Pitt"
+
+actors:{imdb}                       [actor1, actor2, actor3..]
+
+{movie_title}:imdb_entries          [imdb_id1, imdb_id2, imdb_id3..]

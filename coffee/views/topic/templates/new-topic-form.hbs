@@ -1,0 +1,15 @@
+{{#ifLoggedIn}}
+  <div class="new-topic-form-toggle-fields-button-container">
+    <input type="button" class="button new-topic-form-toggle-fields-button" value="Create new topic" />
+  </div>
+
+  <div class="new-topic-form-fields">
+    <input class="new-topic-form-title" type="text" name="new-topic-form-title" value="" placeholder="Title" required>
+    <textarea class="new-topic-form-text" placeholder="Post body" required></textarea>
+    <div class="new-topic-form-submit-button-container form-submit-button-container">
+      <button class="new-topic-form-submit-button submit-form button">
+        Submit new topic{{showShortcut}}
+      </button>
+    </div>
+  </div>
+{{/ifLoggedIn}}

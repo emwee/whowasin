@@ -1,0 +1,10 @@
+@import "compass/reset";
+@import "susy";
+@import "base";
+
+body {
+	margin: 2em;
+	font-family: monospace;
+	@include container;
+	@include susy-grid-background;
+}
