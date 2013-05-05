@@ -2,10 +2,10 @@
 
 class MovieSearch {
 	
-	private $responseedis;
+	private $redis;
 	
-	public function __construct(&$responseedis) {
-		$this->redis = $responseedis;
+	public function __construct(&$redis) {
+		$this->redis = $redis;
 		$this->query = array();
 		$this->results = array();
 		$this->query_imdb_entries = array();
@@ -37,71 +37,83 @@ class MovieSearch {
 		if (!$this->redis->hexists('searches', $search_term)) {	
 			
 			$imdb = new ImdbSearch();
-			$responseesponse = $imdb->query($search_term);
-			$responseesult = json_decode($responseesponse, true);
+			$response = $imdb->query($search_term);
 			
 			// cache response for this search term
-			$this->redis->hset('searches', $search_term, $responseesponse);
-			
+			$this->redis->hset('searches', $search_term, $response);
+
+			$result = json_decode($response, true);
+
 		} else {	
 			
 			// read from cache
-			$responseesult = json_decode($this->redis->hget('searches', $search_term), true);
+			$result = json_decode($this->redis->hget('searches', $search_term), true);
 		}
 		
-		return $responseesult;
+		return $result;
 	}
 	
 	public function getCommonActors() {
 		
 		$query_actors = array();
+
+		$this->query = array_unique($this->query);
 		
+		if (count($this->query) === 1)  {
+			return;
+		}
+
 		foreach ($this->query as $search_term) {
-			
 			$search_term_actors = array();
 			
 			$imdb_entries = $this->getImdbEntriesBySearchTerm($search_term);
-			
+
+			if (array_key_exists('error', $imdb_entries)) {
+				return array();
+			}
+
 			foreach($imdb_entries as $imdb_entry) {
-			
+
 				array_push($this->query_imdb_entries, $imdb_entry);
-				
+
 				if (array_key_exists('actors', $imdb_entry)) {
-				
+
 					$imdb_entry_actors = array();
-				
-					foreach ($imdb_entry['actors'] as $actor) {		
+
+					foreach ($imdb_entry['actors'] as $actor) {
 						array_push($imdb_entry_actors, $actor);
 					}
-				
+
 					$search_term_actors = array_merge($search_term_actors, $imdb_entry_actors);
 				}
 			}
-			
+
 			$search_term_actors = array_unique($search_term_actors);
 
 			array_push($query_actors, $search_term_actors);
 		}
 		
 		$this->matches = call_user_func_array('array_intersect', $query_actors);
-		
+
 		return $this->matches;
 	}
 	
 	public function json() {
 		
 		$response = array();
-		
+
 		foreach ($this->matches as $match) {
 			
 			$m = array();
 			
 			foreach($this->query_imdb_entries as $imdb_entry) {
-				
-				$searches = array_search($match, $imdb_entry['actors']);
-				
-				if ($searches !== false) {
-					array_push($m, $imdb_entry);
+
+				if (array_key_exists('actors', $imdb_entry)) {
+					$searches = array_search($match, $imdb_entry['actors']);
+
+					if ($searches !== false) {
+						array_push($m, $imdb_entry);
+					}	
 				}
 			}
 			

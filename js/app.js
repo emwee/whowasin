@@ -69,8 +69,10 @@ define([
 				collection: movie_search
 			});
 
+			movie_search.setSearchTerm('se7en');
 			movie_search.setSearchTerm('seven');
-			movie_search.setSearchTerm('scarface');
+			movie_search.setSearchTerm('seven');
+			movie_search.setSearchTerm('babel');
 
 			movie_search.query();
 		}
