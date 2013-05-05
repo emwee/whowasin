@@ -18,6 +18,7 @@ $redis = new Predis\Client('tcp://localhost:6379');
 
 $movie_search = new MovieSearch($redis);
 
+
 $app = new \Slim\Slim(array(
 	'view' => new MustacheView()
 ));
