@@ -10,16 +10,16 @@ define([
 		
 			var MovieSearch = Backbone.Collection.extend({
 				url: function() {
-					return '/whowasin/search' + this.query_string;;
+					return '/whowasin/find' + this.query_string;;
 				},
 
 				initialize: function() {
-					this.search_terms = [];
+					this.imdb_ids = [];
 					this.query_string = '';
 				},
 
-				setSearchTerm: function(search_term) {
-					this.search_terms.push(search_term);
+				setImdbId: function(imdb_id) {
+					this.imdb_ids.push(imdb_id);
 				},
 
 				query: function() {
@@ -27,9 +27,9 @@ define([
 					
 					var self = this;
 					
-					_.each(this.search_terms, function(search_term) {
+					_.each(this.imdb_ids, function(imdb_id) {
 						self.query_string += (self.query_string.length > 0) ? '&' : '?';
-						self.query_string += 'movies[]=' + search_term;
+						self.query_string += 'imdb_ids[]=' + imdb_id;
 					});
 					
 					this.fetch();
@@ -68,11 +68,9 @@ define([
 			var movie_search_view = new MovieSearchView({
 				collection: movie_search
 			});
-
-			movie_search.setSearchTerm('se7en');
-			movie_search.setSearchTerm('seven');
-			movie_search.setSearchTerm('seven');
-			movie_search.setSearchTerm('babel');
+			
+			movie_search.setImdbId('tt0114369');
+			movie_search.setImdbId('tt0120102');
 
 			movie_search.query();
 		}

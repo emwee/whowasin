@@ -33,21 +33,39 @@ $app->get('/home', function() use ($app) {
 	$app->render('home.mustache');
 });
 
-$app->get('/search', function() use ($app, $redis, $movie_search) {
+$app->get('/suggestions', function() use ($app, $redis, $movie_search) {
 	
-	if (isset($_GET['movies'])) {
+	if (isset($_GET['q'])) {
 		
-		$search_terms = $_GET['movies'];
+		$search_term = $_GET['q'];
 		
-		foreach ($search_terms as $search_term) {
-			$movie_search->setSearchTerm($search_term);
+		$movie_search->setSearchTerm($search_term);
+		
+		$suggestions = $movie_search->getSuggestions($search_term);
+		
+		if ($app->request()->isAjax() || 1) {
+			$app->contentType('application/json');
+			echo json_encode($suggestions, true);
+			die();
+		}
+	}
+});
+
+$app->get('/find', function() use ($app, $redis, $movie_search) {
+	
+	if (isset($_GET['imdb_ids'])) {
+		
+		$imdb_ids = $_GET['imdb_ids'];
+
+		foreach ($imdb_ids as $imdb_id) {
+			$movie_search->setImdbId($imdb_id);
 		}
 		
-		$matches = $movie_search->getCommonActors();
+		$matches = $movie_search->findCommon();
 		
-		if ($app->request()->isAjax()) {
+		if ($app->request()->isAjax() || 1) {
 			$app->contentType('application/json');
-			echo json_encode($movie_search->json(), true);
+			echo json_encode($matches, true);
 			die();
 		}
 	}
