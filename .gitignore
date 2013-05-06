@@ -1,6 +1,6 @@
+.htaccess
 .sass-cache
 composer.lock
 composer.phar
+node_modules
 vendor
-todo.txt
-.htaccess
