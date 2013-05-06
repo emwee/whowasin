@@ -4,7 +4,19 @@
 
 body {
 	margin: 2em;
-	font-family: monospace;
+	font-family: Helvetica;
+	font-size: 150%;
 	@include container;
 	@include susy-grid-background;
+}
+
+input {
+	font-family: Helvetica;
+	font-size: 1em;	
+}
+
+p,
+input[type="search"],
+button span {
+	font-size: 2em;
 }

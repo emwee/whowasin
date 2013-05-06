@@ -1,0 +1,22 @@
+{
+  "name": "whowasin",
+  "version": "0.0.0",
+  "description": "who was in this and that movie?",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emwee/whowasin.git"
+  },
+  "author": "emwee",
+  "license": "BSD",
+  "gitHead": "aed013d41518a20f13107a68a54fdc2c2d07e8c8",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-jshint": "~0.4.3"
+  }
+}
