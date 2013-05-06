@@ -23,7 +23,6 @@ $app = new \Slim\Slim(array(
 	'view' => new MustacheView()
 ));
 
-
 // comment
 
 $app->notFound(function() use ($app) {
