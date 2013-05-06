@@ -21,7 +21,8 @@ $movie_search = new MovieSearch($redis);
 
 $app = new \Slim\Slim(array(
 	'view' => new MustacheView()
-));
+));ergwgewegw
+
 
 $app->notFound(function() use ($app) {
 	
